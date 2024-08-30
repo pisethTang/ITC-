@@ -1,10 +1,13 @@
 #include <iostream>
 #include <iomanip>
-#include <conio.h>
+// #include <conio.h>
 #include <cstring>
 #include<cstdio>
 #include<cstdlib>
 using namespace std;
+
+
+
 
 class LinkedList
 {
@@ -81,6 +84,8 @@ LinkedList::~LinkedList()
         delete T;
     }
 }
+
+
 int LinkedList::getcount()
 {
     nodeptr T;
@@ -93,6 +98,9 @@ int LinkedList::getcount()
     }
     return c;
 }
+
+
+
 void LinkedList::add_front(char pname[], int pid, int price, int tquant, int aquant, int rack)
 {
     if(H == NULL)
@@ -211,13 +219,15 @@ void LinkedList::delete_node(int nodenum)
         }
     }
 }
+
+
 void LinkedList::delete_node(char name[])
 {
     nodeptr T,P;
     T = H;
     P = T;
     if(T == nullptr);
-    else if(stricmp(T->pname,name) == 0)
+    else if(strcmp(T->pname,name) == 0)
     {
         T = T ->link;
         H = T;
@@ -229,7 +239,7 @@ void LinkedList::delete_node(char name[])
         int flag = 0;
         for(int i = 1 ; i < getcount() ; i++)
         {
-            if(stricmp(T->link->pname,name) == 0)
+            if(strcmp(T->link->pname,name) == 0)
             {
                 flag = 1;
                 break;
@@ -247,6 +257,7 @@ void LinkedList::delete_node(char name[])
             cout << "Product not found" << endl;
     }
 }
+
 void LinkedList::display()
 {
     system("CLS");
@@ -296,7 +307,7 @@ void LinkedList::modify()
         cout << "List empty" << endl;
     while(T != NULL)
     {
-        if(stricmp(T->pname,pname) == 0)
+        if(strcmp(T->pname,pname) == 0)
         {
             cout << "----------------------------------------------------------------" << endl;
             cout << "Node number " << cnt << endl;
@@ -347,6 +358,8 @@ void LinkedList::SaveToFile()
     }
 }
 
+
+
 void LinkedList::ReadFromFile(LinkedList &arg)
 {
     FILE *fp;
@@ -360,6 +373,8 @@ void LinkedList::ReadFromFile(LinkedList &arg)
     fclose(fp);
 }
 
+
+
 void LinkedList::billgen(char filename[],char name[], int quantity, int &total)
 {
     FILE *fp;
@@ -369,7 +384,7 @@ void LinkedList::billgen(char filename[],char name[], int quantity, int &total)
     T = H;
     while(T != NULL)
     {
-        if(stricmp(T->pname,name) == 0)
+        if(strcmp(T->pname,name) == 0)
         {
             if(quantity > T->aquant)
                 cout << "Requested number of products are not available" << endl;
@@ -409,7 +424,7 @@ void LinkedList::Search()
         cout << "List empty" << endl;
     while(T != nullptr)
     {
-        if(stricmp(T->pname,pname) == 0)
+        if(strcmp(T->pname,pname) == 0)
         {
             cout << "----------------------------------------------------------------" << endl;
 
@@ -421,7 +436,7 @@ void LinkedList::Search()
                  << "Rack number : " << T->rack << endl << endl;
 
             cout << "----------------------------------------------------------------" << endl;
-            getch();
+            getchar();
             flag = 1;
             break;
         }
@@ -434,7 +449,7 @@ void LinkedList::Search()
     if(flag == 0)
     {
         cout << "Product not found" << endl;
-        getch();
+        getchar();
     }
 }
 
@@ -560,6 +575,8 @@ void store::PrintBill()
     }
 }
 
+
+
 void store::totalprinter()
 {
     FILE *fp;
@@ -592,7 +609,7 @@ int main()
     store obj;
     int ch;
     cout << endl << "Press any key to continue" << endl;
-    getch();
+    getchar();
     while(1)
     {
         system("CLS");
@@ -612,18 +629,18 @@ int main()
             case    1   :   obj.add();
                 break;
             case    2   :   obj.display();
-                getch();
+                getchar();
                 break;
             case    3   :   obj.modify();
                 break;
             case    4   :   obj.deleteproduct();
-                getch();
+                getchar();
                 break;
             case    5   :   obj.SearchProduct();
                 break;
             case    6   :   obj.PrintBill();
                 obj.totalprinter();
-                getch();
+                getchar();
 
                 break;
             case    7   :   return 0;

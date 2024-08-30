@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
+
+
+
+
 typedef struct st_medicine{
     int medicine_id;
     char medicine_name[50];
@@ -10,6 +13,8 @@ typedef struct st_medicine{
     int quantity;
     float cost;
 }st_medicine;
+
+
 typedef struct st_customer{
     char birthdate[60];
     char firstname[40];
@@ -23,6 +28,8 @@ typedef struct st_customer{
     char country[40];
     int id_code;
 }st_customer;
+
+
 typedef struct st_supply {
     char supply_name[40];
     char company_name[40];
@@ -32,6 +39,8 @@ typedef struct st_supply {
     int quantity;
     float sale;
 }st_supply;
+
+
 typedef struct check_payment{
     float m_price;
     float m_quantity;
@@ -40,9 +49,13 @@ typedef struct check_payment{
     float s_total_price;
     float total_price;
 }check_payment;
+
+
 typedef struct rate_us{
     int rate;
 }rate_us;
+
+
 void store_medicine(){
     int i, n_medicine;
     st_medicine *st;
@@ -75,6 +88,8 @@ void store_medicine(){
     }
     fclose(fp);
 }
+
+
 void check_medicine_info(){
     st_medicine st1;
     FILE *fp;
@@ -87,6 +102,8 @@ void check_medicine_info(){
     }
     fclose(fp);
 }
+
+
 void update_medicine_info(){
     int rno, i;
     int found = 0;
@@ -161,6 +178,8 @@ void update_medicine_info(){
     else
         printf("\n==============================================(( Information not found!!! ))============================================\n");
 }
+
+
 void append_store_medicine(){
     int i, n_medicine;
     st_medicine *st;
@@ -193,6 +212,8 @@ void append_store_medicine(){
     }
     fclose(fp);
 }
+
+
 void del_medicine_info(){
     int rno;
     int found = 0;
@@ -225,6 +246,8 @@ void del_medicine_info(){
     else
         printf("\n==============================================(( Information not found!!! ))============================================\n");
 }
+
+
 void sort_medicine_info(){
     int i, j;
     st_medicine *st, st1;
@@ -252,6 +275,8 @@ void sort_medicine_info(){
     }
     fclose(fp);
 }
+
+
 void search_medicine_info(){
     int rno;
     int found = 0;
@@ -274,6 +299,8 @@ void search_medicine_info(){
         printf("\n==============================================(( Information not found!!! ))============================================\n");
     fclose(fp);
 }
+
+
 void store_customer_info(){
     int n, i;
     st_customer *stc;
@@ -311,6 +338,7 @@ void store_customer_info(){
     }
     fclose(fp);
 }
+
 void check_customer_info(){
     st_customer stc1;
     FILE *fp;
@@ -323,6 +351,8 @@ void check_customer_info(){
     }
     fclose(fp);
 }
+
+
 void update_customer_info(){
     int id_customer;
     int found = 0;
@@ -376,6 +406,8 @@ void update_customer_info(){
     else
         printf("\n==============================================(( Information not found!!! ))============================================\n");
 }
+
+
 void append_store_customer_info(){
     int n, i;
     st_customer *stc;
@@ -413,6 +445,8 @@ void append_store_customer_info(){
     }
     fclose(fp);
 }
+
+
 void del_customer_info(){
     int id_customer;
     int found = 0;
@@ -445,6 +479,8 @@ void del_customer_info(){
     else
         printf("\n==============================================(( Information not found!!! ))============================================\n");
 }
+
+
 void sort_customer_info(){
     int i, j;
     st_customer *stc, stc1;
@@ -472,6 +508,8 @@ void sort_customer_info(){
     }
     fclose(fp);
 }
+
+
 void search_customer_info(){
     int id_customer;
     int found = 0;
@@ -502,6 +540,8 @@ void search_customer_info(){
         printf("\n==============================================(( Information not found!!! ))============================================\n");
     fclose(fp);
 }
+
+
 void store_supplies(){
     int i, n_supply;
     st_supply *sts;
@@ -530,6 +570,8 @@ void store_supplies(){
     }
     fclose(fp);
 }
+
+
 void check_supplies_info(){
     st_supply sts1;
     FILE *fp;
@@ -542,6 +584,7 @@ void check_supplies_info(){
     }
     fclose(fp);
 }
+
 void update_supply_info(){
     int id_supply, i;
     int found = 0;
@@ -616,6 +659,8 @@ void update_supply_info(){
     else
         printf("\n==============================================(( Information not found!!! ))============================================\n");
 }
+
+
 void append_store_supplies(){
     int k, n_supply;
     st_supply *sts;
@@ -644,6 +689,8 @@ void append_store_supplies(){
     }
     fclose(fp);
 }
+
+
 void del_supply_info(){
     int id_supply;
     int found = 0;
@@ -676,6 +723,8 @@ void del_supply_info(){
     else
         printf("\n==============================================(( Information not found!!! ))============================================\n");
 }
+
+
 void sort_supply_info(){
     int i, j;
     st_supply *sts, sts1;
@@ -703,6 +752,8 @@ void sort_supply_info(){
     }
     fclose(fp);
 }
+
+
 void search_supplies_info(){
     int id_supply;
     int found = 0;
@@ -726,6 +777,9 @@ void search_supplies_info(){
         printf("\n==============================================(( Information not found!!! ))============================================\n");
     fclose(fp);
 }
+
+
+
 void customer_payment(){
     int i, b, pay_m, pay_s;
     float m_total, s_total, total;
@@ -770,6 +824,8 @@ void customer_payment(){
     total = m_total + s_total;
     printf("\n\t\t\t\tTOTAL PRICE OF ALL YOU BOUGHT IS %.2f $\n", total);
 }
+
+
 void rate(){
     const int r=1;
     rate_us rt;
@@ -812,10 +868,19 @@ void rate(){
     fclose(fp3);
     printf("\n\t\t\t\t\t\t      THANK YOU !!\n");
 }
+
+
+
+
+
+
+
 int main(){
     int ch, i, j, k, l, b, c;
     char chc, cha;
     char choice;
+
+
     do{
         system("cls");
         system("COLOR 0A");
@@ -859,7 +924,7 @@ int main(){
                             printf("\n\t\t\t-------------------<< Fill the medicine info below >>------------------");
                             append_store_medicine();
                             printf("\n\t\t\t\tPress 'y' to add more info. Press 'n' for back to main menu.");
-                            chc = getche();
+                            chc = getchar();
                             printf("\n");
                         }while(chc=='y');
                         printf("\n\t\t\t-----------------<< Information is completely stored >>----------------\n");
@@ -877,7 +942,7 @@ int main(){
                         printf("\n\t\t\t\tWrong Choice!!!\n");
                     }
                     printf("\n\t\t\t   Press 'y' to select other choice. Press 'n' for back to main menu.");
-                    cha = getche();
+                    cha = getchar();
                     printf("\n");
                 }while(cha=='y');
                 break;
@@ -905,7 +970,7 @@ int main(){
                             printf("\n\t\t\t-------------------<< Fill the customer info below >>------------------");
                             append_store_customer_info();
                             printf("\n\t\t\t\tPress 'y' to add more info. Press 'n' for back to main menu.");
-                            chc = getche();
+                            chc = getchar();
                             printf("\n");
                         }while(chc=='y');
                         printf("\n\t\t\t-----------------<< Information is completely stored >>----------------\n");
@@ -923,7 +988,7 @@ int main(){
                         printf("\n\t\t\t\tWrong Choice!!!\n");
                     }
                     printf("\n\t\t\t   Press 'y' to select other choice. Press 'n' for back to main menu.");
-                    cha = getche();
+                    cha = getchar();
                     printf("\n");
                 }while(cha=='y');
                 break;
@@ -951,7 +1016,7 @@ int main(){
                             printf("\n\t\t\t-------------------<< Fill the supplies info below >>------------------");
                             append_store_supplies();
                             printf("\n\t\t\t\tPress 'y' to add more info. Press 'n' for back to main menu.");
-                            chc = getche();
+                            chc = getchar();
                             printf("\n");
                         }while(chc=='y');
                         printf("\n\t\t\t-----------------<< Information is completely stored >>----------------\n");
@@ -969,7 +1034,7 @@ int main(){
                         printf("\n\t\t\t\tWrong Choice!!!\n");
                     }
                     printf("\n\t\t\t   Press 'y' to select other choice. Press 'n' for back to main menu.");
-                    cha = getche();
+                    cha = getchar();
                     printf("\n");
                 }while(cha=='y');
                 break;
@@ -1013,7 +1078,7 @@ int main(){
                         printf("\n\t\t\t\t\tWrong choice!!\n");
                     }
                     printf("\n\t\t\t   Press 'y' to select other choice. Press 'n' for back to main menu.");
-                    cha = getche();
+                    cha = getchar();
                     printf("\n");
                 }while(cha=='y');
                 break;
@@ -1057,7 +1122,7 @@ int main(){
                         printf("\n\t\t\t\t\tWrong choice!!\n");
                     }
                     printf("\n\t\t\t   Press 'y' to select other choice. Press 'n' for back to main menu.");
-                    cha = getche();
+                    cha = getchar();
                     printf("\n");
                 }while(cha=='y');
                 break;
@@ -1101,7 +1166,7 @@ int main(){
                         printf("\n\t\t\t\t\tWrong choice!!\n");
                     }
                     printf("\n\t\t\t   Press 'y' to select other choice. Press 'n' for back to main menu.");
-                    cha = getche();
+                    cha = getchar();
                     printf("\n");
                 }while(cha=='y');
                 break;
@@ -1113,7 +1178,7 @@ int main(){
                     printf("\n\t\t\t-------------------<< WELCOME TO CHECK PAYMENT MENU >>-----------------\n\n");
                     customer_payment();
                     printf("\n\t\t\t   Press 'y' to check other payment. Press 'n' for back to main menu.");
-                    cha = getche();
+                    cha = getchar();
                     printf("\n");
                 }while(cha=='y');
                 break;
@@ -1124,7 +1189,7 @@ int main(){
                     printf("\n\n\n\n\t\t\t-----------------<< THANK YOU FOR BUYING IN OUR STORE >>---------------\n\n");
                     rate();
                     printf("\n\t\t\t\tPress 'y' to RATE us again. Press 'n' for back to main menu.");
-                    cha = getche();
+                    cha = getchar();
                     printf("\n");
                 }while(cha=='y');
                 break;
@@ -1135,8 +1200,10 @@ int main(){
                 break;
         }
         printf("\n\t\t\tPress 'y' to go back to main program menu. Press any keys to exit program.");
-        choice = getche();
+        choice = getchar();
     }while (choice == 'y' || choice == 'Y');
+
+
     return 0;
 }
 
