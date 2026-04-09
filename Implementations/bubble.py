@@ -18,24 +18,29 @@ def random_array(n: int):
 def generate_sizes(min_size: int, max_size: int, step: int):
     return [i for i in range(min_size, max_size, step)]
 
+
+
+
 # Exercise 2: Bubble sort takes in A and sorts it in ascending order 
 # to form A' where A'[i] < A'[i+1] for all i in n := len(A) = len(A')
 # def bubble_sort_naïve_with_mésure(t):
-    if len(t) <= 1:
-        return t, 0, 0
-    comps = 0
-    moves = 0
-    swapped = True
-    i = 1
-    while swapped:
-        swapped = False
-        for i in range(1, len(t)):
-            comps += 1
-            if t[i] < t[i - 1]:
-                moves += 3
-                t[i - 1], t[i] = t[i], t[i - 1]
-                swapped = True
-    return t, comps, moves
+    # if len(t) <= 1:
+    #     return t, 0, 0
+    # comps = 0
+    # moves = 0
+    # swapped = True
+    # i = 1
+    # while swapped:
+    #     swapped = False
+    #     for i in range(1, len(t)):
+    #         comps += 1
+    #         if t[i] < t[i - 1]:
+    #             moves += 3
+    #             t[i - 1], t[i] = t[i], t[i - 1]
+    #             swapped = True
+    # return t, comps, moves
+
+
 
 # Exercise 3: Bubble sort with the total number of swaps and comparisons.
 def bubble_sort_with_mésure(a: list) -> tuple:

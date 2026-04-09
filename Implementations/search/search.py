@@ -10,6 +10,8 @@ def naive_search_position_with_bounds(t, e, start, end) -> tuple:
         comps += 1
         if t[i] == e: return i, comps  # position found!
     return None, comps  # for all i, no position found!
+
+
 def naive_search_position(t, e):
     return naive_search_position_with_bounds(t, e, 0, len(t))
 

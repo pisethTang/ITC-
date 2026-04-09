@@ -1,5 +1,5 @@
 
-import search 
+import Implementations.search.search as search 
 
 def insertion_sort(t):
     comps = 0
