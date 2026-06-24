@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import bubble
+import Implementations.bubbles.bubble as bubble
 
 
 

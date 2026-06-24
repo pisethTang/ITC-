@@ -1,5 +1,5 @@
 
-import Implementations.search.search as search 
+import search.search as search 
 
 def insertion_sort(t):
     comps = 0
@@ -34,7 +34,7 @@ def insertion_sort_optimized(t):
         v = t[i]
         for j in range(i, p, -1):
             moves += 1
-            t[i] = t[i - 1]
+            t[j] = t[j - 1]
         moves += 1
         t[p] = v
     return t, comps, moves

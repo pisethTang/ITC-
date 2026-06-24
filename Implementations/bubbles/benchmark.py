@@ -1,5 +1,5 @@
 from matplotlib import pyplot as plt 
-import bubble 
+import Implementations.bubbles.bubble as bubble 
 import insertion 
 import random_resources
 import merge 
