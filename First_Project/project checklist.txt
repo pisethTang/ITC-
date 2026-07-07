@@ -1,0 +1,17 @@
+project checklist: 
+1. variable ( local and global) 
+2. selection case (if/else and switch) 
+3. nested if
+4. loop (for, while, do/while loop)
+5. nested loop
+6. Function (use argument as normal value, use argument as  pointer), void function , return function 
+7. Recursion function 
+8. Array (1 and 2D) 
+9. Array of pointer 
+10. File (w,a,r) 
+11. Structure 
+12. structure use as pointer 
+13. typeddef structure 
+14. constant 
+15. enum
+16. bonus: use malloc, use search algorithm (binary search an so on) 
