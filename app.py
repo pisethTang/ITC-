@@ -1,3 +1,4 @@
+import json
 import pickle
 
 import matplotlib.pyplot as plt
@@ -30,57 +31,133 @@ def load_model():
         return pickle.load(f)
 
 
-# ---------------------------------------------------------------------------
-# Navigation
-# ---------------------------------------------------------------------------
-st.sidebar.title("Navigation")
-page = st.sidebar.radio(
-    "Go to",
-    ["Overview", "Data Exploration", "Model Performance", "Predict Satisfaction"],
-)
+@st.cache_data
+def load_feature_selection_results():
+    with open("feature_selection_results.json") as f:
+        return json.load(f)
+
+
+
 
 # ---------------------------------------------------------------------------
 # Overview page
 # ---------------------------------------------------------------------------
 def show_overview():
-    st.title("Airline Customer Satisfaction Prediction")
-
+    # Hero header
+    st.title("✈️ Airline Customer Satisfaction Prediction")
     st.markdown(
         """
-        This app explores airline passenger satisfactions.
-        The dataset contains roughly **130,000 records** and **24 features** covering
-        demographics, flight information, and inflight service ratings.
-        """
+        <div style="background: linear-gradient(90deg, #1f2937 0%, #111827 100%); 
+                    padding: 1.25rem 1.5rem; border-radius: 12px; 
+                    border-left: 5px solid #3b82f6; margin-bottom: 1.5rem;">
+            <h3 style="margin: 0; color: #f9fafb;">
+                Predicting passenger satisfaction from flight experience data
+            </h3>
+            <p style="margin: 0.5rem 0 0 0; color: #d1d5db;">
+                Built on roughly <strong>130,000 airline records</strong> and
+                <strong>24 features</strong> covering demographics, flight info,
+                and inflight service ratings.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
+    # Quick stats cards
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric(label="Records", value="~130K")
+    c2.metric(label="Features", value="24")
+    c3.metric(label="Best AUC", value="0.994")
+    c4.metric(label="Top Model", value="Random Forest")
+
+    st.divider()
+
+    # Project overview
     st.header("Project Overview")
     st.write(
         """
         I trained and evaluated several machine learning models to predict whether a
         passenger is **satisfied** or **neutral/dissatisfied** with their flight experience.
+        The goal is to understand which parts of the journey matter most to passengers.
         """
     )
 
+    # Models compared
     st.subheader("Models compared")
-    st.markdown(
-        """
-        - **Random Forest** — AUC ≈ 0.994
-        - **Decision Tree** — AUC ≈ 0.946
-        - **Lasso Logistic Regression** — AUC ≈ 0.927
-        - **Ridge Logistic Regression** — AUC ≈ 0.908
-        - **Plain Logistic Regression** — AUC ≈ 0.751
-        - **Elastic Net** — AUC ≈ 0.641
-        """
+    metrics = pd.DataFrame(
+        {
+            "Model": [
+                "Random Forest",
+                "Decision Tree",
+                "Lasso Logistic Regression",
+                "Ridge Logistic Regression",
+                "Plain Logistic Regression",
+                "Elastic Net",
+            ],
+            "AUC": [0.9936, 0.9460, 0.9268, 0.9079, 0.7507, 0.6413],
+        }
     )
 
+    col_table, col_chart = st.columns([2, 3])
+    with col_table:
+        st.dataframe(
+            metrics.style.format({"AUC": "{:.3f}"}).background_gradient(
+                subset=["AUC"], cmap="Greens"
+            ),
+            use_container_width=True,
+            hide_index=True,
+        )
+
+    with col_chart:
+        fig, ax = plt.subplots(figsize=(8, 4))
+        bar_colors = [
+            "#22c55e" if score == metrics["AUC"].max() else "#3b82f6"
+            for score in metrics["AUC"]
+        ]
+        ax.barh(metrics["Model"], metrics["AUC"], color=bar_colors)
+        ax.set_xlim(0, 1)
+        ax.set_xlabel("ROC-AUC")
+        ax.invert_yaxis()
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        st.pyplot(fig)
+
+    st.info(
+        "Random Forest came out on top, but the high scores also reflect that many "
+        "predictive features are service ratings collected alongside the satisfaction label. "
+        "In a live system, you would need to confirm those ratings are available at prediction time.",
+        icon="💡",
+    )
+
+    st.divider()
+
+    # Key drivers
     st.subheader("Key drivers of satisfaction")
     st.write(
         """
-        The most important features turned out to be service-quality factors such as
-        **Type of Travel**, **Inflight Wi-Fi Service**, **Online Boarding**, **Seat Comfort**,
-        and **Class** — more than delays alone.
+        The most important features turned out to be service-quality factors — more than delays alone:
         """
     )
+
+    drivers = [
+        "Type of Travel",
+        "Inflight Wi-Fi Service",
+        "Online Boarding",
+        "Seat Comfort",
+        "Class",
+    ]
+    driver_cols = st.columns(len(drivers))
+    for col, driver in zip(driver_cols, drivers):
+        col.markdown(
+            f"""
+            <div style="background-color: #1f2937; padding: 0.75rem; 
+                        border-radius: 8px; text-align: center; 
+                        border: 1px solid #374151; margin-bottom: 0.5rem;">
+                <span style="color: #60a5fa; font-weight: 600;">{driver}</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -106,20 +183,71 @@ def show_eda():
         st.pyplot(fig)
 
     with col2:
-        st.subheader("Numerical correlations")
-        numerical_cols = [
-            "Age",
-            "Flight_Distance",
-            "Departure_Delay_in_Minutes",
-            "Arrival_Delay_in_Minutes",
+        st.subheader("Satisfaction by top service ratings")
+        top_service_features = [
+            "Online_boarding",
+            "Inflight_wifi_service",
+            "Seat_comfort",
+            "Inflight_entertainment",
         ]
-        corr = df[numerical_cols].corr()
-        fig, ax = plt.subplots(figsize=(6, 4))
-        sns.heatmap(corr, annot=True, cmap="YlGnBu", fmt=".2f", ax=ax)
+        fig, axes = plt.subplots(2, 2, figsize=(11, 9))
+        axes = axes.flatten()
+        for idx, feature in enumerate(top_service_features):
+            sns.countplot(
+                x=df[feature],
+                hue=df["satisfaction"],
+                palette="Paired",
+                ax=axes[idx],
+            )
+            axes[idx].set_title(
+                f"Satisfaction by {feature.replace('_', ' ')}", fontsize=11
+            )
+            axes[idx].set_xlabel(feature.replace("_", " "), fontsize=10)
+            axes[idx].set_ylabel("Count", fontsize=10)
+            axes[idx].legend(title="Satisfaction", fontsize=7)
+        plt.tight_layout(pad=3.0)
         st.pyplot(fig)
 
-    st.subheader("Feature importance from Random Forest")
+# ---------------------------------------------------------------------------
+# Feature Selection page
+# ---------------------------------------------------------------------------
+def show_feature_selection():
+    st.title("Feature Selection")
+    st.write(
+        """
+        Multiple feature selection methods were applied to identify the most predictive
+        variables for passenger satisfaction. This page compares the features selected
+        by each method and shows which ones consistently appeared across techniques.
+        """
+    )
+
+    results = load_feature_selection_results()
     model_data = load_model()
+    feature_names = model_data["feature_names"]
+
+    method_names = {
+        "chi_square": "Chi-Square",
+        "wrapper": "Wrapper (SelectFromModel RF)",
+        "random_forest_top10": "Random Forest Top 10",
+        "permutation": "Permutation Importance",
+        "decision_tree_top10": "Decision Tree Top 10",
+        "rfe": "Recursive Feature Elimination",
+        "rfecv": "RFE with Cross-Validation",
+    }
+
+    # Comparison table: features selected by each method
+    comparison_df = pd.DataFrame(index=feature_names)
+    for key, label in method_names.items():
+        comparison_df[label] = [1 if f in results[key] else 0 for f in feature_names]
+
+    st.subheader("Feature selection comparison")
+    st.dataframe(
+        comparison_df.style.background_gradient(subset=list(method_names.values()), cmap="Greens"),
+        use_container_width=True,
+    )
+
+    # Random Forest feature importance
+    st.subheader("Random Forest feature importance")
     importance_df = pd.DataFrame(
         {
             "Feature": model_data["feature_names"],
@@ -128,9 +256,37 @@ def show_eda():
     ).sort_values("Importance", ascending=True)
 
     fig, ax = plt.subplots(figsize=(8, 6))
-    ax.barh(importance_df["Feature"], importance_df["Importance"])
+    bar_colors = [
+        "#22c55e" if imp == importance_df["Importance"].max() else "#3b82f6"
+        for imp in importance_df["Importance"]
+    ]
+    ax.barh(importance_df["Feature"], importance_df["Importance"], color=bar_colors)
     ax.set_xlabel("Importance")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
     st.pyplot(fig)
+
+    # Consistent features across methods
+    st.subheader("Consistently selected features")
+    method_lists = [results[key] for key in method_names.keys()]
+    intersection = set(method_lists[0])
+    for method_list in method_lists[1:]:
+        intersection = intersection.intersection(set(method_list))
+
+    union = set()
+    for method_list in method_lists:
+        union = union.union(set(method_list))
+
+    col_int, col_union = st.columns(2)
+    with col_int:
+        st.write("**Selected by every method**")
+        for feature in sorted(intersection):
+            st.write(f"- {feature}")
+
+    with col_union:
+        st.write("**Selected by at least one method**")
+        for feature in sorted(union):
+            st.write(f"- {feature}")
 
 
 # ---------------------------------------------------------------------------
@@ -138,6 +294,31 @@ def show_eda():
 # ---------------------------------------------------------------------------
 def show_performance():
     st.title("Model Performance")
+
+    st.write(
+        """
+        The models below were trained and evaluated on the **full set of features**.
+        Feature selection was used to understand which variables matter most, but the
+        final model comparison here uses all available inputs.
+        """
+    )
+
+    col_auc, col_acc = st.columns(2)
+    with col_auc:
+        st.info(
+            "**AUC (also called ROC-AUC)** tells us how often the model ranks a satisfied "
+            "passenger higher than a dissatisfied one. Imagine picking one satisfied and one "
+            "dissatisfied passenger at random. AUC is the chance the model gives the satisfied "
+            "passenger a higher score. 1.0 means perfect, 0.5 means coin flip.",
+            icon="📈",
+        )
+    with col_acc:
+        st.info(
+            "**Accuracy** is the percentage of passengers the model labeled correctly. "
+            "If the model looks at 100 passengers and gets 96 right, accuracy is 96%. "
+            "It is simple but can be misleading if one class is much bigger than the other.",
+            icon="🎯",
+        )
 
     metrics = pd.DataFrame(
         {
@@ -164,10 +345,15 @@ def show_performance():
         fig, ax = plt.subplots(figsize=(6, 4))
         ax.barh(metrics["Model"], metrics["AUC"])
         ax.set_xlim(0, 1)
-        ax.set_xlabel("ROC-AUC")
+        ax.set_xlabel("AUC")
         st.pyplot(fig)
 
     st.subheader("Random Forest on held-out test set")
+    st.write(
+        "A held-out test set is data that was kept separate from training so the model never saw it "
+        "while learning. Using it for the final evaluation gives a more realistic estimate of how "
+        "the model would perform on new passengers."
+    )
     model_data = load_model()
     c1, c2 = st.columns(2)
     c1.metric("Accuracy", f"{model_data['test_accuracy']:.4f}")
@@ -279,13 +465,15 @@ def show_prediction():
 
 
 # ---------------------------------------------------------------------------
-# Route to the selected page
+# Navigation
 # ---------------------------------------------------------------------------
-if page == "Overview":
-    show_overview()
-elif page == "Data Exploration":
-    show_eda()
-elif page == "Model Performance":
-    show_performance()
-elif page == "Predict Satisfaction":
-    show_prediction()
+overview_page = st.Page(show_overview, title="Overview", icon="✈️")
+eda_page = st.Page(show_eda, title="Data Exploration", icon="📊")
+feature_page = st.Page(show_feature_selection, title="Feature Selection", icon="🔍")
+performance_page = st.Page(show_performance, title="Model Performance", icon="📈")
+predict_page = st.Page(show_prediction, title="Predict Satisfaction", icon="🎯")
+
+pg = st.navigation(
+    [overview_page, eda_page, feature_page, performance_page, predict_page]
+)
+pg.run()

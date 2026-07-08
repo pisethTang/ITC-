@@ -1,0 +1,89 @@
+{
+  "chi_square": [
+    "Age",
+    "Type_of_Travel",
+    "Class",
+    "Flight_Distance",
+    "Inflight_wifi_service",
+    "Online_boarding",
+    "Seat_comfort",
+    "Inflight_entertainment",
+    "Departure_Delay_in_Minutes",
+    "Arrival_Delay_in_Minutes"
+  ],
+  "wrapper": [
+    "Type_of_Travel",
+    "Class",
+    "Inflight_wifi_service",
+    "Online_boarding",
+    "Seat_comfort",
+    "Inflight_entertainment"
+  ],
+  "random_forest_top10": [
+    "Online_boarding",
+    "Inflight_wifi_service",
+    "Type_of_Travel",
+    "Class",
+    "Inflight_entertainment",
+    "Seat_comfort",
+    "Leg_room_service",
+    "Flight_Distance",
+    "Customer_Type",
+    "Ease_of_Online_booking"
+  ],
+  "permutation": [
+    "Inflight_wifi_service",
+    "Type_of_Travel",
+    "Customer_Type",
+    "Online_boarding",
+    "Checkin_service",
+    "Class",
+    "Baggage_handling",
+    "Seat_comfort",
+    "Inflight_service",
+    "Cleanliness"
+  ],
+  "decision_tree_top10": [
+    "Online_boarding",
+    "Inflight_wifi_service",
+    "Type_of_Travel",
+    "Inflight_entertainment",
+    "Customer_Type",
+    "Checkin_service",
+    "Flight_Distance",
+    "Age",
+    "Gate_location",
+    "Class"
+  ],
+  "rfe": [
+    "Customer_Type",
+    "Type_of_Travel",
+    "Class",
+    "Inflight_wifi_service",
+    "Ease_of_Online_booking",
+    "Online_boarding",
+    "On-board_service",
+    "Leg_room_service",
+    "Checkin_service",
+    "Cleanliness"
+  ],
+  "rfecv": [
+    "Customer_Type",
+    "Age",
+    "Type_of_Travel",
+    "Class",
+    "Inflight_wifi_service",
+    "Departure/Arrival_time_convenient",
+    "Ease_of_Online_booking",
+    "Online_boarding",
+    "Seat_comfort",
+    "On-board_service",
+    "Leg_room_service",
+    "Baggage_handling",
+    "Checkin_service",
+    "Inflight_service",
+    "Cleanliness",
+    "Departure_Delay_in_Minutes",
+    "Arrival_Delay_in_Minutes"
+  ]
+}
