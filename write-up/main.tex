@@ -38,7 +38,7 @@
 
 %%% Header
 	\pagestyle{fancy}
-	\chead{\groupname}
+	\chead{}
 	\rhead{}
 	\lhead{}
 	\cfoot{\thepage}
@@ -58,20 +58,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{\fill}
+
+    {\Huge\bfseries Airline Customer Satisfaction Analysis\par}
+
+    \vspace{1.5cm}
+
+    {\LARGE Piseth Tang\par}
+
+    \vspace{0.5cm}
+
+    {\large 8th July 2026\par}
+
+    \vspace*{\fill}
+\end{titlepage}
 \clearpage\thispagestyle{empty}
 
 
-
-\begin{center}
-	% title
-	\textbf{\huge{Analysis on passengers' satisfaction level using Logistic Regression}} \\[1cm]
-	% details
-\end{center}
-
-\vspace*{1cm}
-
-
-\noindent\textbf{\textit{Submission Date:}} $8^{th}$ July, $2026$
 
 
 \newpage
@@ -391,7 +396,7 @@ Model 6: AUC = 0.9935930212658386
 \section{Further work}
 We can certainly create pipelines to ease the process and reduce time to rewrite code. We can also tune the hyper-parameter(meta-parameter) of our regularized methods. We can also train more machine learning algorithms such as Ada Gradient Boosting which is a famous and powerful classification model.
 
-\section{Source code}
+% \section{Source code}
 
 
 
