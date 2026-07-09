@@ -50,7 +50,7 @@ def load_feature_comparison_results():
 # ---------------------------------------------------------------------------
 def show_overview():
     # Hero header
-    st.title("✈️ Airline Customer Satisfaction Prediction")
+    st.title("Airline Customer Satisfaction Prediction")
     st.markdown(
         """
         <div style="background: linear-gradient(90deg, #1f2937 0%, #111827 100%); 
@@ -130,8 +130,7 @@ def show_overview():
 
     st.info(
         "Random Forest came out on top, but the high scores also reflect that many "
-        "predictive features are service ratings collected alongside the satisfaction label. "
-        "In a live system, you would need to confirm those ratings are available at prediction time.",
+        "predictive features are service ratings collected alongside the satisfaction label. ",
         icon="💡",
     )
 
