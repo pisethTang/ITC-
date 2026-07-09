@@ -1,0 +1,55 @@
+{
+  "all_features": {
+    "feature_count": 22,
+    "features": [
+      "Gender",
+      "Customer_Type",
+      "Age",
+      "Type_of_Travel",
+      "Class",
+      "Flight_Distance",
+      "Inflight_wifi_service",
+      "Departure/Arrival_time_convenient",
+      "Ease_of_Online_booking",
+      "Gate_location",
+      "Food_and_drink",
+      "Online_boarding",
+      "Seat_comfort",
+      "Inflight_entertainment",
+      "On-board_service",
+      "Leg_room_service",
+      "Baggage_handling",
+      "Checkin_service",
+      "Inflight_service",
+      "Cleanliness",
+      "Departure_Delay_in_Minutes",
+      "Arrival_Delay_in_Minutes"
+    ],
+    "accuracy": 0.9618,
+    "auc": 0.9939
+  },
+  "frequent_selected": {
+    "feature_count": 6,
+    "features": [
+      "Type_of_Travel",
+      "Class",
+      "Inflight_wifi_service",
+      "Online_boarding",
+      "Seat_comfort",
+      "Customer_Type"
+    ],
+    "accuracy": 0.9204,
+    "auc": 0.9774
+  },
+  "intersection": {
+    "feature_count": 4,
+    "features": [
+      "Class",
+      "Inflight_wifi_service",
+      "Online_boarding",
+      "Type_of_Travel"
+    ],
+    "accuracy": 0.8955,
+    "auc": 0.9642
+  }
+}

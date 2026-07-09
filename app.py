@@ -37,6 +37,12 @@ def load_feature_selection_results():
         return json.load(f)
 
 
+@st.cache_data
+def load_feature_comparison_results():
+    with open("feature_comparison_results.json") as f:
+        return json.load(f)
+
+
 
 
 # ---------------------------------------------------------------------------
@@ -221,6 +227,55 @@ def show_feature_selection():
         """
     )
 
+    st.warning(
+        "These selected feature sets were used for insight and interpretation. The models on "
+        "the Model Performance page and the predictor below were trained on the full set of "
+        "features, not on a reduced subset.",
+        icon="⚠️",
+    )
+
+    st.subheader("Impact of feature selection on Random Forest")
+    comparison = load_feature_comparison_results()
+    comparison_df = pd.DataFrame(
+        {
+            "Feature set": [
+                "All features",
+                "Frequently selected (6 features)",
+                "Intersection of all methods (4 features)",
+            ],
+            "Feature count": [
+                comparison["all_features"]["feature_count"],
+                comparison["frequent_selected"]["feature_count"],
+                comparison["intersection"]["feature_count"],
+            ],
+            "Accuracy": [
+                comparison["all_features"]["accuracy"],
+                comparison["frequent_selected"]["accuracy"],
+                comparison["intersection"]["accuracy"],
+            ],
+            "AUC": [
+                comparison["all_features"]["auc"],
+                comparison["frequent_selected"]["auc"],
+                comparison["intersection"]["auc"],
+            ],
+        }
+    )
+
+    st.dataframe(
+        comparison_df.style.format({"Accuracy": "{:.4f}", "AUC": "{:.4f}"}).background_gradient(
+            subset=["Accuracy", "AUC"], cmap="Greens"
+        ),
+        use_container_width=True,
+        hide_index=True,
+    )
+
+    st.info(
+        "Using all 22 features gives the highest accuracy and AUC. The selected feature sets "
+        "perform slightly worse but are much simpler. This is why the deployed predictor uses "
+        "all features.",
+        icon="📊",
+    )
+
     results = load_feature_selection_results()
     model_data = load_model()
     feature_names = model_data["feature_names"]
@@ -372,6 +427,12 @@ def show_prediction():
     feature_names = model_data["feature_names"]
 
     st.write("Adjust the passenger details below and click **Predict**.")
+
+    st.info(
+        "This predictor uses the Random Forest model trained on all available features, "
+        "which achieved the highest AUC in the comparison.",
+        icon="🤖",
+    )
 
     with st.form("prediction_form"):
         col1, col2 = st.columns(2)
